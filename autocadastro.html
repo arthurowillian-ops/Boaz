@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BOAZ · Planeje seu evento</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --vinho-deep:#3A0A2A; --vinho:#5E1142; --vinho-mid:#7C1856;
+    --ouro:#F5C542; --ouro-soft:#FFD873;
+    --card:#FDFBF9; --ink:#2B0A20; --muted:#9A8590; --line:#EFE4EA; --line2:#E6D8E0;
+    --st-green:#3FA34D; --st-red:#C0392B;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:'Montserrat',sans-serif;color:var(--ink);
+    background:radial-gradient(circle at 50% -10%, var(--vinho-mid), var(--vinho-deep) 70%);
+    min-height:100vh;padding:24px 14px 60px}
+  .wrap{max-width:620px;margin:0 auto}
+  .brand{text-align:center;margin:10px 0 22px}
+  .brand img{width:130px;filter:drop-shadow(0 8px 26px rgba(0,0,0,.45))}
+  .brand .fb{font-family:'Cormorant Garamond',serif;color:#fff;font-size:30px;font-weight:700;letter-spacing:.02em}
+  .brand .fb span{color:var(--ouro)}
+  .brand .tl{color:rgba(255,255,255,.6);font-size:11px;letter-spacing:.22em;text-transform:uppercase;margin-top:2px}
+
+  .card{background:var(--card);border-radius:20px;padding:30px 26px;box-shadow:0 30px 70px -34px rgba(0,0,0,.7)}
+  h1{font-family:'Cormorant Garamond',serif;font-size:27px;margin:0 0 4px;color:var(--vinho)}
+  .lead{color:var(--muted);font-size:13.5px;margin:0 0 22px;line-height:1.5}
+
+  /* stepper */
+  .steps{display:flex;gap:6px;margin-bottom:26px}
+  .steps .s{flex:1;height:5px;border-radius:99px;background:var(--line2)}
+  .steps .s.on{background:linear-gradient(90deg,var(--ouro-soft),var(--ouro))}
+
+  label{display:block;font-size:12px;font-weight:600;color:var(--vinho);margin:0 0 5px;letter-spacing:.01em}
+  .fld{margin-bottom:15px}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:13px}
+  .grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:13px}
+  @media(max-width:520px){.grid2,.grid3{grid-template-columns:1fr}}
+  input,select,textarea{width:100%;padding:12px 13px;border:1px solid var(--line2);border-radius:11px;
+    font-family:inherit;font-size:14px;color:var(--ink);background:#fff;outline:none;transition:border-color .18s,box-shadow .18s}
+  input:focus,select:focus,textarea:focus{border-color:var(--ouro);box-shadow:0 0 0 3px rgba(245,197,66,.18)}
+  textarea{resize:vertical;min-height:64px}
+  .req{color:var(--st-red)}
+  .hint{font-size:11.5px;color:var(--muted);margin-top:4px}
+
+  .step{display:none;animation:fade .35s ease}
+  .step.on{display:block}
+  @keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+
+  .sec-title{font-family:'Cormorant Garamond',serif;font-size:20px;color:var(--vinho);margin:24px 0 10px;padding-top:6px;border-top:1px solid var(--line)}
+
+  /* serviços */
+  .svc{border:1px solid var(--line2);border-radius:12px;padding:12px 14px;margin-bottom:9px;transition:border-color .18s,background .18s}
+  .svc.on{border-color:var(--ouro);background:#FFFDF6}
+  .svc-head{display:flex;align-items:center;gap:11px;cursor:pointer}
+  .svc-head input{width:19px;height:19px;accent-color:var(--vinho);cursor:pointer;flex:none}
+  .svc-head .nm{font-weight:600;font-size:14px;color:var(--ink)}
+  .svc-obs{margin-top:11px;display:none}
+  .svc.on .svc-obs{display:block}
+
+  /* convidados */
+  .guest-row{display:grid;grid-template-columns:2fr 1.4fr .7fr .7fr .7fr auto;gap:8px;margin-bottom:8px;align-items:center}
+  @media(max-width:620px){.guest-row{grid-template-columns:1fr 1fr;position:relative;padding:12px;border:1px solid var(--line2);border-radius:12px}}
+  .guest-row input{padding:10px}
+  .mini-x{width:34px;height:34px;border:none;border-radius:9px;background:#FBE7E4;color:var(--st-red);font-size:18px;cursor:pointer;flex:none}
+  .ghead{display:grid;grid-template-columns:2fr 1.4fr .7fr .7fr .7fr auto;gap:8px;font-size:10.5px;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);font-weight:600;margin-bottom:6px}
+  @media(max-width:620px){.ghead{display:none}}
+
+  .nav{display:flex;gap:12px;margin-top:26px}
+  .btn{flex:1;padding:14px;border-radius:12px;border:none;font-family:inherit;font-weight:600;font-size:15px;cursor:pointer;transition:transform .15s,box-shadow .2s,opacity .2s}
+  .btn-gold{background:linear-gradient(135deg,var(--ouro-soft),var(--ouro));color:var(--vinho);box-shadow:0 12px 26px -12px rgba(245,197,66,.8)}
+  .btn-gold:hover{transform:translateY(-2px)}
+  .btn-gold:disabled{opacity:.6;transform:none;cursor:default}
+  .btn-ghost{background:transparent;border:1.5px solid var(--line2);color:var(--vinho);flex:0 0 auto;padding:14px 20px}
+  .btn-ghost:hover{border-color:var(--vinho)}
+  .btn-add{background:transparent;border:1.5px dashed var(--line2);color:var(--vinho);width:100%;padding:12px;border-radius:11px;font-family:inherit;font-weight:600;font-size:13.5px;cursor:pointer;margin-top:2px}
+  .btn-add:hover{border-color:var(--ouro);background:#FFFDF6}
+
+  .err{color:var(--st-red);font-size:13px;margin-top:12px;min-height:18px;font-weight:500}
+
+  /* estados de tela cheia (loading / inválido / sucesso) */
+  .screen{text-align:center;padding:34px 10px}
+  .screen .ic{width:66px;height:66px;border-radius:50%;display:grid;place-items:center;margin:0 auto 16px}
+  .screen.ok .ic{background:#E7F3E9}
+  .screen.bad .ic{background:#FBE7E4}
+  .screen h2{font-family:'Cormorant Garamond',serif;font-size:24px;color:var(--vinho);margin:0 0 8px}
+  .screen p{color:var(--muted);font-size:14px;line-height:1.55;margin:0}
+  .spin{width:40px;height:40px;border:4px solid var(--line2);border-top-color:var(--ouro);border-radius:50%;animation:sp 1s linear infinite;margin:20px auto}
+  @keyframes sp{to{transform:rotate(360deg)}}
+  .foot{text-align:center;color:rgba(255,255,255,.4);font-size:11px;margin-top:22px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="brand">
+    <img id="logo" src="https://i.postimg.cc/G2KZgHH5/image-removebg-preview-(15).png" alt="BOAZ"
+         onerror="this.style.display='none';document.getElementById('fb').style.display='block'">
+    <div class="fb" id="fb" style="display:none">B<span>oaz</span></div>
+    <div class="tl">Assessoria de Eventos</div>
+  </div>
+
+  <div class="card">
+    <!-- LOADING -->
+    <div id="scrLoad" class="screen"><div class="spin"></div><p>Carregando seu formulário…</p></div>
+
+    <!-- LINK INVÁLIDO -->
+    <div id="scrBad" class="screen bad" style="display:none">
+      <div class="ic"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#C0392B" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><path d="M15 9l-6 6M9 9l6 6"/></svg></div>
+      <h2>Link inválido ou expirado</h2>
+      <p id="badMsg">Este link de cadastro não é válido. Peça um novo link para a equipe da Boaz.</p>
+    </div>
+
+    <!-- SUCESSO -->
+    <div id="scrOk" class="screen ok" style="display:none">
+      <div class="ic"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#3FA34D" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></div>
+      <h2>Planejamento enviado!</h2>
+      <p>Recebemos todas as suas informações. A equipe da Boaz vai analisar e entrar em contato. Você já pode fechar esta página.</p>
+    </div>
+
+    <!-- FORM -->
+    <div id="form" style="display:none">
+      <div class="steps"><div class="s on" data-s="1"></div><div class="s" data-s="2"></div><div class="s" data-s="3"></div><div class="s" data-s="4"></div></div>
+
+      <!-- ETAPA 1: CLIENTE -->
+      <div class="step on" id="step1">
+        <h1>Seus dados</h1>
+        <p class="lead">Vamos começar com suas informações de contato. Campos com <span class="req">*</span> são obrigatórios.</p>
+        <div class="fld"><label>Nome completo <span class="req">*</span></label><input id="c_nome" type="text"></div>
+        <div class="grid2">
+          <div class="fld"><label>CPF / CNPJ</label><input id="c_doc" type="text" inputmode="numeric" oninput="maskDoc(this)"></div>
+          <div class="fld"><label>Data de nascimento</label><input id="c_nasc" type="date"></div>
+        </div>
+        <div class="fld"><label>Endereço</label><input id="c_end" type="text" placeholder="Rua, número, bairro"></div>
+        <div class="grid3">
+          <div class="fld"><label>Cidade</label><input id="c_cidade" type="text"></div>
+          <div class="fld"><label>Estado</label><input id="c_uf" type="text" maxlength="2" placeholder="UF" style="text-transform:uppercase"></div>
+          <div class="fld"><label>CEP</label><input id="c_cep" type="text" inputmode="numeric" oninput="maskCep(this)"></div>
+        </div>
+        <div class="grid2">
+          <div class="fld"><label>Telefone</label><input id="c_tel" type="text" inputmode="numeric" oninput="maskPhone(this)"></div>
+          <div class="fld"><label>WhatsApp</label><input id="c_wpp" type="text" inputmode="numeric" oninput="maskPhone(this)"></div>
+        </div>
+        <div class="grid2">
+          <div class="fld"><label>E-mail</label><input id="c_email" type="email"></div>
+          <div class="fld"><label>Instagram</label><input id="c_insta" type="text" placeholder="@"></div>
+        </div>
+        <div class="grid2">
+          <div class="fld"><label>Empresa (opcional)</label><input id="c_empresa" type="text"></div>
+          <div class="fld"><label>Como conheceu a Boaz?</label><input id="c_origem" type="text" placeholder="Indicação, Instagram…"></div>
+        </div>
+        <div class="err" id="err1"></div>
+        <div class="nav"><button class="btn btn-gold" onclick="next(2)">Planejar meu evento →</button></div>
+      </div>
+
+      <!-- ETAPA 2: EVENTO + SERVIÇOS -->
+      <div class="step" id="step2">
+        <h1>Seu evento</h1>
+        <p class="lead">Conte como você imagina o evento. Quanto mais detalhes, melhor a equipe entende sua ideia.</p>
+        <div class="fld"><label>Nome do evento <span class="req">*</span></label><input id="e_nome" type="text" placeholder="Ex: Casamento Marina & Rafael"></div>
+        <div class="grid2">
+          <div class="fld"><label>Tipo de evento</label><select id="e_tipo"></select></div>
+          <div class="fld"><label>Nº estimado de convidados</label><input id="e_convidadosPrev" type="number" min="0" inputmode="numeric"></div>
+        </div>
+        <div class="grid3">
+          <div class="fld"><label>Data</label><input id="e_data" type="date"></div>
+          <div class="fld"><label>Horário de início</label><input id="e_horaIni" type="time"></div>
+          <div class="fld"><label>Cidade</label><input id="e_cidade" type="text"></div>
+        </div>
+        <div class="fld"><label>Local</label><input id="e_local" type="text" placeholder="Nome do espaço"></div>
+        <div class="fld"><label>Endereço do local</label><input id="e_endereco" type="text"></div>
+        <div class="fld"><label>Observações gerais</label><textarea id="e_descricao" placeholder="Estilo, expectativas, referências…"></textarea></div>
+
+        <div class="sec-title">Serviços desejados</div>
+        <p class="lead" style="margin-bottom:14px">Marque o que você quer para o evento e descreva como imagina cada um.</p>
+        <div id="svcList"></div>
+
+        <div class="err" id="err2"></div>
+        <div class="nav">
+          <button class="btn btn-ghost" onclick="next(1)">← Voltar</button>
+          <button class="btn btn-gold" onclick="next(3)">Continuar →</button>
+        </div>
+      </div>
+
+      <!-- ETAPA 3: CONVIDADOS -->
+      <div class="step" id="step3">
+        <h1>Lista de convidados</h1>
+        <p class="lead">Opcional. Você pode adicionar seus convidados agora para adiantar, ou pular e enviar depois.</p>
+        <div class="ghead"><div>Nome</div><div>WhatsApp</div><div>Adultos</div><div>Crianças</div><div>Acomp.</div><div></div></div>
+        <div id="guestList"></div>
+        <button class="btn-add" onclick="addGuest()">+ Adicionar convidado</button>
+        <div class="nav">
+          <button class="btn btn-ghost" onclick="next(2)">← Voltar</button>
+          <button class="btn btn-gold" onclick="next(4)">Continuar →</button>
+        </div>
+      </div>
+
+      <!-- ETAPA 4: REVISÃO -->
+      <div class="step" id="step4">
+        <h1>Revisar e enviar</h1>
+        <p class="lead">Confira o resumo. Se estiver tudo certo, envie seu planejamento para a equipe.</p>
+        <div id="review"></div>
+        <div class="err" id="err4"></div>
+        <div class="nav">
+          <button class="btn btn-ghost" onclick="next(3)">← Voltar</button>
+          <button class="btn btn-gold" id="sendBtn" onclick="enviar()">Enviar planejamento</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="foot">BOAZ Assessoria de Eventos · seus dados são usados apenas para o planejamento do seu evento</div>
+</div>
+
+<script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-database-compat.js"></script>
+<script>
+/* ===== Firebase (mesma config do ERP) ===== */
+const firebaseConfig={apiKey:"AIzaSyAX__idYBWE25Q6NpAtHVgiTfP8B1vFyt0",authDomain:"dager-sistema.firebaseapp.com",databaseURL:"https://dager-sistema-default-rtdb.firebaseio.com",projectId:"dager-sistema",storageBucket:"dager-sistema.firebasestorage.app",messagingSenderId:"237752779511",appId:"1:237752779511:web:642a6020190afb0d6d49f2"};
+firebase.initializeApp(firebaseConfig);
+const FDB=firebase.database();
+const refConvites=FDB.ref('boaz/convites');
+const refSolic=FDB.ref('boaz/solicitacoes');
+
+const TIPOS=['Casamento','Aniversário','Corporativo','Formatura','Debutante (15 anos)','Batizado','Confraternização','Chá de bebê','Outro'];
+const CATALOGO=['Buffet','Decoração','Fotografia','Filmagem','DJ','Banda / Música ao vivo','Cerimonial','Iluminação','Sonorização','Segurança','Estrutura / Tendas','Bar / Bartender','Doces & Bolo','Convites','Transporte'];
+
+/* token do link */
+const TOKEN=new URLSearchParams(location.search).get('c')||'';
+
+/* ===== helpers de máscara ===== */
+const onlyDigits=s=>(s||'').replace(/\D/g,'');
+function maskDoc(el){let v=onlyDigits(el.value).slice(0,14);if(v.length<=11){v=v.replace(/(\d{3})(\d)/,'$1.$2').replace(/(\d{3})(\d)/,'$1.$2').replace(/(\d{3})(\d{1,2})$/,'$1-$2')}else{v=v.replace(/(\d{2})(\d)/,'$1.$2').replace(/(\d{3})(\d)/,'$1.$2').replace(/(\d{3})(\d)/,'$1/$2').replace(/(\d{4})(\d{1,2})$/,'$1-$2')}el.value=v}
+function maskPhone(el){let v=onlyDigits(el.value).slice(0,11);if(v.length<=10)v=v.replace(/(\d{2})(\d)/,'($1) $2').replace(/(\d{4})(\d{1,4})$/,'$1-$2');else v=v.replace(/(\d{2})(\d)/,'($1) $2').replace(/(\d{5})(\d{1,4})$/,'$1-$2');el.value=v}
+function maskCep(el){let v=onlyDigits(el.value).slice(0,8);el.value=v.replace(/(\d{5})(\d{1,3})$/,'$1-$2')}
+const esc=s=>(s||'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
+const val=id=>document.getElementById(id).value.trim();
+
+/* ===== boot: valida o token ===== */
+(function init(){
+  if(!TOKEN){return showBad('Nenhum link foi informado. Peça o link de cadastro à equipe da Boaz.');}
+  refConvites.child(TOKEN).get().then(snap=>{
+    if(!snap.exists())return showBad('Este link de cadastro não é válido. Peça um novo link para a equipe da Boaz.');
+    startForm();
+  }).catch(()=>showBad('Não foi possível validar o link. Verifique sua conexão e tente novamente.'));
+})();
+
+function showBad(msg){document.getElementById('scrLoad').style.display='none';document.getElementById('badMsg').textContent=msg;document.getElementById('scrBad').style.display='block';}
+function startForm(){
+  document.getElementById('scrLoad').style.display='none';
+  document.getElementById('form').style.display='block';
+  document.getElementById('e_tipo').innerHTML='<option value="">Selecione…</option>'+TIPOS.map(t=>`<option>${t}</option>`).join('');
+  document.getElementById('svcList').innerHTML=CATALOGO.map((s,i)=>`
+    <div class="svc" id="svc${i}">
+      <label class="svc-head"><input type="checkbox" onchange="document.getElementById('svc${i}').classList.toggle('on',this.checked)"><span class="nm">${esc(s)}</span></label>
+      <div class="svc-obs"><textarea placeholder="Como você imagina ${esc(s.toLowerCase())}? (tema, cores, estilo, restrições…)"></textarea></div>
+    </div>`).join('');
+  addGuest();
+}
+
+/* ===== navegação entre etapas ===== */
+let stepNow=1;
+function next(n){
+  if(n>stepNow){ if(!validate(stepNow))return; }
+  stepNow=n;
+  document.querySelectorAll('.step').forEach(s=>s.classList.remove('on'));
+  document.getElementById('step'+n).classList.add('on');
+  document.querySelectorAll('.steps .s').forEach(s=>s.classList.toggle('on',+s.dataset.s<=n));
+  if(n===4)buildReview();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function validate(step){
+  if(step===1){ if(!val('c_nome')){return fail('err1','Informe seu nome completo para continuar.','c_nome');} }
+  if(step===2){ if(!val('e_nome')){return fail('err2','Dê um nome ao seu evento para continuar.','e_nome');} }
+  document.getElementById('err1').textContent='';document.getElementById('err2').textContent='';
+  return true;
+}
+function fail(errId,msg,focusId){document.getElementById(errId).textContent=msg;if(focusId)document.getElementById(focusId).focus();return false;}
+
+/* ===== convidados ===== */
+function addGuest(){
+  const wrap=document.getElementById('guestList');
+  const row=document.createElement('div');row.className='guest-row';
+  row.innerHTML=`<input placeholder="Nome" class="g-nome"><input placeholder="WhatsApp" class="g-wpp" inputmode="numeric" oninput="maskPhone(this)">
+    <input placeholder="Ad." type="number" min="0" class="g-ad" value="1"><input placeholder="Cri." type="number" min="0" class="g-cri" value="0">
+    <input placeholder="Ac." type="number" min="0" class="g-ac" value="0"><button class="mini-x" onclick="this.parentElement.remove()">×</button>`;
+  wrap.appendChild(row);
+}
+function collectGuests(){
+  return [...document.querySelectorAll('#guestList .guest-row')].map(r=>({
+    nome:r.querySelector('.g-nome').value.trim(),
+    wpp:r.querySelector('.g-wpp').value.trim(),
+    adultos:r.querySelector('.g-ad').value||'0',
+    criancas:r.querySelector('.g-cri').value||'0',
+    acompanhantes:r.querySelector('.g-ac').value||'0'
+  })).filter(g=>g.nome);
+}
+
+/* ===== serviços ===== */
+function collectServicos(){
+  const out=[];
+  CATALOGO.forEach((s,i)=>{
+    const box=document.getElementById('svc'+i);
+    const chk=box.querySelector('input[type=checkbox]');
+    if(chk.checked)out.push({servico:s,obs:box.querySelector('textarea').value.trim()});
+  });
+  return out;
+}
+
+/* ===== payloads ===== */
+function buildCliente(){return {nome:val('c_nome'),doc:val('c_doc'),nasc:val('c_nasc'),end:val('c_end'),cidade:val('c_cidade'),uf:val('c_uf').toUpperCase(),cep:val('c_cep'),tel:val('c_tel'),wpp:val('c_wpp'),email:val('c_email'),insta:val('c_insta'),empresa:val('c_empresa'),origem:val('c_origem')};}
+function buildEvento(){return {nome:val('e_nome'),tipo:val('e_tipo'),data:val('e_data'),horaIni:val('e_horaIni'),local:val('e_local'),endereco:val('e_endereco'),cidade:val('e_cidade'),convidadosPrev:val('e_convidadosPrev'),descricao:val('e_descricao')};}
+
+/* ===== revisão ===== */
+function buildReview(){
+  const c=buildCliente(),e=buildEvento(),sv=collectServicos(),g=collectGuests();
+  const row=(k,v)=>v?`<div style="display:flex;justify-content:space-between;gap:14px;padding:6px 0;border-bottom:1px solid var(--line)"><span style="color:var(--muted);font-size:12.5px">${k}</span><span style="font-size:13px;text-align:right;font-weight:500">${esc(v)}</span></div>`:'';
+  document.getElementById('review').innerHTML=`
+    <div class="sec-title" style="margin-top:0;border:none">Cliente</div>
+    ${row('Nome',c.nome)}${row('CPF/CNPJ',c.doc)}${row('WhatsApp',c.wpp)}${row('E-mail',c.email)}${row('Cidade',c.cidade)}
+    <div class="sec-title">Evento</div>
+    ${row('Nome',e.nome)}${row('Tipo',e.tipo)}${row('Data',e.data)}${row('Local',e.local)}${row('Convidados est.',e.convidadosPrev)}
+    <div class="sec-title">Serviços (${sv.length})</div>
+    ${sv.length?sv.map(s=>`<div style="padding:6px 0;border-bottom:1px solid var(--line)"><b style="font-size:13px">${esc(s.servico)}</b>${s.obs?`<div style="font-size:12.5px;color:var(--muted);margin-top:2px">${esc(s.obs)}</div>`:''}</div>`).join(''):'<div style="color:var(--muted);font-size:13px;padding:6px 0">Nenhum serviço marcado.</div>'}
+    <div class="sec-title">Convidados</div>
+    <div style="color:var(--muted);font-size:13px;padding:6px 0">${g.length} convidado(s) adicionado(s).</div>`;
+}
+
+/* ===== envio ===== */
+function enviar(){
+  const btn=document.getElementById('sendBtn'),err=document.getElementById('err4');
+  err.textContent='';btn.disabled=true;btn.textContent='Enviando…';
+  const payload={
+    enviadoEm:new Date().toISOString(),
+    status:'pendente',
+    cliente:buildCliente(),
+    evento:buildEvento(),
+    servicos:collectServicos(),
+    convidados:collectGuests()
+  };
+  refSolic.child(TOKEN).set(payload)
+    .then(()=>{document.getElementById('form').style.display='none';document.getElementById('scrOk').style.display='block';window.scrollTo({top:0});})
+    .catch(e=>{
+      btn.disabled=false;btn.textContent='Enviar planejamento';
+      err.textContent = (e&&e.code==='PERMISSION_DENIED')
+        ? 'Este formulário já foi enviado, ou o link expirou. Fale com a equipe da Boaz.'
+        : 'Não foi possível enviar. Verifique sua conexão e tente novamente.';
+    });
+}
+</script>
+</body>
+</html>
